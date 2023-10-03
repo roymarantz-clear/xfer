@@ -1,0 +1,58 @@
+#! /usr/bin/env bash
+# -*- shell-script -*-
+
+usage () {
+    cat <<EOF 1>&2
+Get AWS and optionally EKS crednetials
+
+usage: $0 [-h] [-k cluster] [-t timeout ] AwsProfileName [command [args ...]]
+where: -k eks cluster unique selector string
+       AwsProfileName profile name from ~/.aws/config
+       command defaults to SHELL
+EOF
+    exit 1
+}
+
+cluster=
+timeout='12h'
+
+while getopts "k:t:h" o; do
+    case "$o" in
+	k) cluster="$OPTARG"
+	   ;;
+	t) timeout="$OPTARG"
+	   ;;
+	*) usage
+	   ;;
+    esac
+done
+shift $((OPTIND-1))
+[[ $# -lt 1 ]] && usage
+
+set -o errexit -o nounset -o pipefail
+
+profile="$1"
+shift
+CFILE="$HOME/.aws/credentials-$profile"
+
+# shellcheck source=/dev/null
+[ -r "$CFILE" ] && source "$CFILE"
+
+# if my credentials are missing or expired
+if aws sts get-caller-identity | grep -q "$USER"; then
+    :
+else
+    # save the new credentials
+    pull-aws-creds --mfa-duo-device token env "$profile" -t "$timeout" > "$CFILE" 
+    # shellcheck source=/dev/null
+    source "$CFILE"
+fi
+
+# default to starting a shell
+[[ $# == 0 ]] && set -- "${SHELL:-bash}"
+
+if [[ -z $cluster ]]; then
+    exec "$@"
+else
+    exec setup_kubeconfig  "$cluster" "$@"
+fi

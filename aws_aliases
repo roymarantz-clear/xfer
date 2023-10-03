@@ -1,0 +1,64 @@
+# ***********************
+# Okta
+#
+# Usage:
+# <account-alias> <command requiring AWS auth>
+# e.g.:
+# fed-dev aws s3 ls
+
+# use the YubiKey instead of doing a push
+export AWS_OKTA_MFA_DUO_DEVICE=token
+
+## LOWER ENVS
+## comm
+alias scratch="export AWS_REGION=us-east-1 && ~/bin/pace scratch"
+alias leg-dev="export AWS_REGION=us-east-1 && ~/bin/pace leg-dev"
+alias leg-bmdev="export AWS_REGION=us-east-1 && ~/bin/pace leg-bmdev"
+alias nonprod-dev="export AWS_REGION=us-east-1 && ~/bin/pace nonprod-dev"
+alias nonprod-inno="export AWS_REGION=us-east-1 && ~/bin/pace nonprod-inno"
+alias pie="export AWS_REGION=us-east-1 && ~/bin/pace pie"
+ 
+ 
+## UPPER ENVS
+## fed
+alias fed-prod="export AWS_REGION=us-gov-east-1 && ~/bin/pace fed-prod"
+alias fed-net="export AWS_REGION=us-gov-east-1 && ~/bin/pace fed-net"
+alias fed-admin="export AWS_REGION=us-gov-east-1 && ~/bin/pace fed-admin"
+alias fed-adminI="export AWS_REGION=us-gov-east-1 && ~/bin/pace fed-adminI"
+alias fed-dev="export AWS_REGION=us-gov-east-1 && ~/bin/pace fed-dev"
+alias fed-sec="export AWS_REGION=us-gov-east-1 && ~/bin/pace fed-sec"
+alias fed-pki="env AWS_REGION=us-gov-east-1 ~/bin/pace -t 1h fed-pki"
+
+### comm
+alias comm-net="export AWS_REGION=us-east-1 && ~/bin/pace comm-net"
+alias comm-admin="export AWS_REGION=us-east-1 && ~/bin/pace comm-admin"
+alias comm-dev="export AWS_REGION=us-east-1 && ~/bin/pace comm-dev"
+alias comm-infra="export AWS_REGION=us-east-1 && ~/bin/pace comm-infra"
+alias comm-prod="export AWS_REGION=us-east-1 && ~/bin/pace comm-prod"
+alias leg-prod="export AWS_REGION=us-east-1 && ~/bin/pace leg-prod"
+alias leg-ops="export AWS_REGION=us-east-1 && ~/bin/pace leg-ops"
+alias leg-bmprod="export AWS_REGION=us-east-1 && ~/bin/pace leg-bmprod"
+
+## HEALTH
+alias health-dev="export AWS_REGION=us-east-1 && ~/bin/pace health-dev"
+alias health-tools="export AWS_REGION=us-east-1 && ~/bin/pace health-tools"
+alias health-pie="export AWS_REGION=us-east-1 && ~/bin/pace health-pie"
+alias health-prod="export AWS_REGION=us-east-1 && ~/bin/pace health-prod"
+
+## TSA-PRE
+alias tsa-dev="export AWS_REGION=us-gov-west-1 && ~/bin/pace tsa-dev"
+alias tsa-tools="export AWS_REGION=us-gov-west-1 && ~/bin/pace tsa-tools"
+alias tsa-net="export AWS_REGION=us-gov-west-1 && ~/bin/pace tsa-network"
+alias tsa-prod="export AWS_REGION=us-gov-west-1 && ~/bin/pace tsa-prod"
+alias tsa-admin="export AWS_REGION=us-gov-west-1 && ~/bin/pace tsa-admin"
+# UAT needs phone1 for some reason
+alias tsa-uat="export AWS_REGION=us-gov-west-1 && aws-okta --mfa-duo-device phone1 exec tsa-uat"
+alias tsa-add='aws-okta add --account=tsa-clear --domain tsa-clear.okta.com --username  roy.marantz@clearme.com --mfa-duo-device phone1'
+
+# Mastercard
+alias mc-dev="export AWS_REGION=us-east-1 && ~/bin/pace mc-dev"
+alias mc-dev-ro="export AWS_REGION=us-east-1 && ~/bin/pace mc-dev-ro"
+#alias mc-tools="export AWS_REGION=us-east-1 && ~/bin/pace mc-tools"
+#alias mc-net="export AWS_REGION=us-east-1 && ~/bin/pace mc-network-sudo"
+alias mc-prod="export AWS_REGION=us-east-1 && ~/bin/pace mc-prod"
+#alias mc-admin="export AWS_REGION=us-east-1 && ~/bin/pace mc-admin"

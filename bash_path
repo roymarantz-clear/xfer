@@ -1,0 +1,29 @@
+# /bin/bash
+# this is meant to be sourced
+
+pathprepend() {
+  for ((i=$#; i>0; i--)); 
+  do
+    ARG=${!i}
+    if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+        PATH="$ARG${PATH:+":$PATH"}"
+    fi
+  done
+}
+
+pathappend() {
+  for ARG in "$@"
+  do
+    if [ -d "$ARG" ] && [[ ":$PATH:" != *":$ARG:"* ]]; then
+        PATH="${PATH:+"$PATH:"}$ARG"
+    fi
+  done
+}
+
+pathprepend $HOME/bin \
+	    $HOME/go/bin \
+	    $HOME/.ghcup/bin $HOME/.cabal/bin $HOME/.local/bin \
+	    $HOME/.rvm/bin \
+	    /usr/local/bin /usr/local/go/bin
+
+pathappend ${HOME}/.krew/bin
